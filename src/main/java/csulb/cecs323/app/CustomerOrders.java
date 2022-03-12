@@ -22,6 +22,7 @@ import javax.persistence.Persistence;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.Scanner;
 
 /**
  * A simple application to demonstrate how to persist an object in JPA.
@@ -92,6 +93,28 @@ public class CustomerOrders {
       // Commit the changes so that the new data persists and is visible to other users.
       tx.commit();
       LOGGER.fine("End of Transaction");
+
+
+      Scanner in = new Scanner(System.in);
+      boolean isValid = false;
+      int inputProduct = 0;
+   /*   System.out.print("Enter customer name: ");
+      String customerName = in.nextLine(); */
+      System.out.print("Available Products:\n");
+      for (int i=0; i<products.size(); i++) {
+         System.out.println(i+1 + "\t" + products.get(i).getProd_name());
+      }
+
+      do {
+         System.out.print("Enter sequence number of desired product: ");
+         inputProduct = in.nextInt();
+         if (inputProduct > 0 && inputProduct <= products.size()){
+            isValid = true;
+         } else {
+            System.out.println("Invalid product! Try again.");
+         }
+      } while (!isValid);
+
 
    } // End of the main method
 
