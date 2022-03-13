@@ -14,11 +14,15 @@ package csulb.cecs323.app;
 
 // Import all of the entity classes that we have written for this application.
 import csulb.cecs323.model.*;
+import org.eclipse.persistence.jpa.jpql.parser.DateTime;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -100,6 +104,10 @@ public class CustomerOrders {
       boolean isValid = false;
       int inputProduct = 0;
       int inputCustomerName= 0;
+      Date currentDate = new Date();
+      LocalDateTime current = LocalDateTime.now();
+      DateTimeFormatter formatTime = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+      String formattedDate = current.format(formatTime);
 
       products = customerOrders.getProductList(); //set products list equal to the retrieved product list
       customerOrders.createEntity (products); //persist all products
@@ -109,24 +117,81 @@ public class CustomerOrders {
       customerOrders.createEntity(customers);
       Customers customerNameChoice = null;
 
-      System.out.print("Customer Last Names:\n");
+      System.out.print("Commencing Order Application...\n");
+
+      System.out.print("Available Customer Names to Place Order:\n");
       for (int i=0; i<customers.size(); i++) {  //print product menu
          System.out.println(i+1 + "\t" + customers.get(i).getLast_name() + " " + customers.get(i).getFirst_name());
       }
 
       do { //input validation loop
-         System.out.print("Enter sequence number of desired customer name: ");
+         System.out.print("Enter Sequence Number of Desired Customer Name: ");
          inputCustomerName = in.nextInt(); //take user input in form of int
          if (inputCustomerName > 0 && inputCustomerName <= customers.size()){
             isValid = true;
             customerNameChoice = customers.get(inputCustomerName-1); //-1 because sequence numbers started at 1 instead of 0
-            System.out.println("You chose customer " + inputCustomerName + ", " + " " + customers.get(inputCustomerName-1).getFirst_name() + " " + customers.get(inputCustomerName-1).getLast_name() );
+            System.out.println("You Chose Customer " + inputCustomerName + ", " + " " + customers.get(inputCustomerName-1).getFirst_name() + " " + customers.get(inputCustomerName-1).getLast_name() );
          } else {
-            System.out.println("Invalid customer name! Try again.");
+            System.out.println("Invalid Customer Name! Try Again.");
          }
       } while (!isValid);
 
+      System.out.println(currentDate);
+
       System.out.println();
+      isValid = false;
+
+      int orderDateChoice = 0;
+      System.out.print("Enter Order Date: /n1. Current /n2. Present\n");
+      boolean valid = false;
+      while (!valid)
+      {
+         if(in.hasNextInt()){
+            orderDateChoice = in.nextInt();
+            if(orderDateChoice <= 2 && orderDateChoice >= 1){
+               valid = true;
+            }
+            else
+            {
+               System.out.println("Invalid Range.");
+            }
+         }
+         else {
+            in.next();
+            System.out.println("Invalid Input.");
+         }
+      }
+
+      if(orderDateChoice == 1)
+      {
+         System.out.println("Order Date Set As: \n");
+         System.out.println(currentDate);
+      }
+      else if(orderDateChoice == 2)
+      {
+         int Date = 0;
+         System.out.println("Enter Order Date Year (2000-2022): \n");
+         valid = false;
+         while (!valid) {
+            if (in.hasNextInt()) {
+               Date = in.nextInt();
+               if (Date <= 2022 && orderDateChoice >= 2000) {
+                  valid = true;
+               } else {
+                  System.out.println("Invalid Range.");
+               }
+            } else {
+               in.next();
+               System.out.println("Invalid Input.");
+            }
+         }
+
+
+      }
+      else
+      {
+         System.out.println("Error.");
+      }
 
       System.out.print("Available Products:\n");
       for (int i=0; i<products.size(); i++) {  //print product menu
