@@ -98,6 +98,8 @@ public class CustomerOrders {
       Scanner in = new Scanner(System.in);
       boolean isValid = false;
       int inputProduct = 0;
+      products = customerOrders.getProductList();
+      Products productChoice = null;
    /*   System.out.print("Enter customer name: ");
       String customerName = in.nextLine(); */
       System.out.print("Available Products:\n");
@@ -110,6 +112,7 @@ public class CustomerOrders {
          inputProduct = in.nextInt();
          if (inputProduct > 0 && inputProduct <= products.size()){
             isValid = true;
+            productChoice = products.get(inputProduct-1); //-1 because sequence numbers started at 1 instead of 0
          } else {
             System.out.println("Invalid product! Try again.");
          }
@@ -159,4 +162,11 @@ public class CustomerOrders {
          return products.get(0);
       }
    }// End of the getStyle method
+
+   public List<Products> getProductList () {
+      // Run the native query that we defined in the Products entity to find the right style.
+      List<Products> products = this.entityManager.createNamedQuery("ReturnProductList",
+              Products.class).getResultList();
+      return products;
+   }
 } // End of CustomerOrders class

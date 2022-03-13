@@ -11,12 +11,12 @@ INSERT INTO customers (CUSTOMER_ID, last_name, first_name, street, zip, phone) V
 
 INSERT INTO products (UPC, prod_name, mfgr, model, unit_list_price, units_in_stock) VALUES ('7869540487', 'Projector', 'Dell', '87966', 85.50, 50)
 INSERT INTO products (UPC, prod_name, mfgr, model, unit_list_price, units_in_stock) VALUES ('0677689097', 'Bluetooth Speaker', 'Apple', '66920', 53.29, 150)
-INSERT INTO products (UPC, prod_name, mfgr, model, unit_list_price, units_in_stock) VALUES ('8486211733', 'Facial Cleanser', 'Abella', '95210', 4.50, 500
-    INSERT INTO products (UPC, prod_name, mfgr, model, unit_list_price, units_in_stock) VALUES ('6019174575', 'Blender', 'General Electric Co.', '66843', 33.78, 300)
-    INSERT INTO products (UPC, prod_name, mfgr, model, unit_list_price, units_in_stock) VALUES ('3751922592', 'Nail Polish','Abella', '74200', 6.90, 150)
-    INSERT INTO products (UPC, prod_name, mfgr, model, unit_list_price, units_in_stock) VALUES ('1633078894', 'Wireless Phone Charger', 'Apple', '37619', 22.43, 500)
-    INSERT INTO products (UPC, prod_name, mfgr, model, unit_list_price, units_in_stock) VALUES ('9251088241', 'Doormat', '3M', '12882', 33.87, 100)
-    INSERT INTO products (UPC, prod_name, mfgr, model, unit_list_price, units_in_stock) VALUES ('9898298878', 'Hiking Backpack', 'Reynolds American', '36181', 22.50, 0
-    INSERT INTO products (UPC, prod_name, mfgr, model, unit_list_price, units_in_stock) VALUES ('3611634406', 'Gloves', 'Fifty Strong', '66920', 4.50, 250)
-    INSERT INTO products (UPC, prod_name, mfgr, model, unit_list_price, units_in_stock) VALUES ('8101559571', 'Portable Car Vacuum', 'American Alpha ProTech', '66920', 15.65, 50)
-    INSERT INTO products (UPC, prod_name, mfgr, model, unit_list_price, units_in_stock) VALUES ('9661989904', 'Phone Tripod', 'Apple', '12023', 28.25, 75)
+INSERT INTO products (UPC, prod_name, mfgr, model, unit_list_price, units_in_stock) VALUES ('8486211733', 'Facial Cleanser', 'Abella', '95210', 4.50, 500)
+INSERT INTO products (UPC, prod_name, mfgr, model, unit_list_price, units_in_stock) VALUES ('6019174575', 'Blender', 'General Electric Co.', '66843', 33.78, 300)
+INSERT INTO products (UPC, prod_name, mfgr, model, unit_list_price, units_in_stock) VALUES ('3751922592', 'Nail Polish','Abella', '74200', 6.90, 150)
+INSERT INTO products (UPC, prod_name, mfgr, model, unit_list_price, units_in_stock) VALUES ('1633078894', 'Wireless Phone Charger', 'Apple', '37619', 22.43, 500)
+INSERT INTO products (UPC, prod_name, mfgr, model, unit_list_price, units_in_stock) VALUES ('9251088241', 'Doormat', '3M', '12882', 33.87, 100)
+INSERT INTO products (UPC, prod_name, mfgr, model, unit_list_price, units_in_stock) VALUES ('9898298878', 'Hiking Backpack', 'Reynolds American', '36181', 22.50, 0)
+INSERT INTO products (UPC, prod_name, mfgr, model, unit_list_price, units_in_stock) VALUES ('3611634406', 'Gloves', 'Fifty Strong', '66920', 4.50, 250)
+INSERT INTO products (UPC, prod_name, mfgr, model, unit_list_price, units_in_stock) VALUES ('8101559571', 'Portable Car Vacuum', 'American Alpha ProTech', '66920', 15.65, 50)
+INSERT INTO products (UPC, prod_name, mfgr, model, unit_list_price, units_in_stock) VALUES ('9661989904', 'Phone Tripod', 'Apple', '12023', 28.25, 75)

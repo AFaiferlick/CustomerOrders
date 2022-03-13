@@ -24,6 +24,16 @@ import javax.persistence.NamedNativeQuery;
                 "WHERE  prod_name = ? ",
         resultClass = Products.class
 )
+
+@NamedNativeQuery(
+        name="ReturnProductList",
+        query = "SELECT * " +
+                "FROM   PRODUCTS " +
+                "WHERE  prod_name = ? " +
+                "ORDER BY prod_name ",
+        resultClass = Products.class
+)
+
 /** Something that we stock, that the customer can order. */
 public class Products {
     @Id
