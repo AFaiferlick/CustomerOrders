@@ -1,5 +1,10 @@
 package csulb.cecs323.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.NamedNativeQuery;
+
 import javax.persistence.*;
 import java.util.Objects;
 /*
@@ -13,12 +18,29 @@ import java.util.Objects;
  *  2021 David Brown <david.brown@csulb.edu>
  *
  */
-
 @Entity
+@NamedNativeQuery(
+        name="ReturnCustomerNameList",
+        query = "SELECT * " +
+                "FROM CUSTOMERS " +
+                "ORDER BY last_name, first_name", //delete where clause since we want ALL
+        resultClass = Customers.class
+)
+
+@NamedNativeQuery(
+        name="ReturnCustomerName",
+        query = "SELECT * " +
+                "FROM   CUSTOMERS " +
+                "WHERE  last_name = ? AND first_name = ?",
+        resultClass = Customers.class
+)
+
 // I could have avoided uniqueConstraints and just done
 // one constraint, but this was more fun.
 @Table(uniqueConstraints = {@UniqueConstraint(columnNames =
         {"first_name", "last_name", "phone"})})
+
+
 /** A person, who has, or might, order products from us. */
 public class Customers {
     @Id

@@ -84,6 +84,7 @@ public class CustomerOrders {
       tx.begin();
       // List of Products that I want to persist.  I could just as easily done this with the seed-data.sql
       List <Products> products = new ArrayList<Products>();
+      List <Customers> customers = new ArrayList<Customers>();
       // Load up my List with the Entities that I want to persist.  Note, this does not put them
       // into the database.
       //products.add(new Products("076174517163", "16 oz. Hickory Hammer", "Stanely Tools", "00001", 9.97, 50));
@@ -98,11 +99,35 @@ public class CustomerOrders {
       Scanner in = new Scanner(System.in);
       boolean isValid = false;
       int inputProduct = 0;
+      int inputCustomerName= 0;
+
       products = customerOrders.getProductList(); //set products list equal to the retrieved product list
       customerOrders.createEntity (products); //persist all products
       Products productChoice = null; //create variable to store customer's product choice
-   /*   System.out.print("Enter customer name: ");
-      String customerName = in.nextLine(); */
+
+      customers = customerOrders.getCustomerNameList();
+      customerOrders.createEntity(customers);
+      Customers customerNameChoice = null;
+
+      System.out.print("Customer Last Names:\n");
+      for (int i=0; i<customers.size(); i++) {  //print product menu
+         System.out.println(i+1 + "\t" + customers.get(i).getLast_name() + " " + customers.get(i).getFirst_name());
+      }
+
+      do { //input validation loop
+         System.out.print("Enter sequence number of desired customer name: ");
+         inputCustomerName = in.nextInt(); //take user input in form of int
+         if (inputCustomerName > 0 && inputCustomerName <= customers.size()){
+            isValid = true;
+            customerNameChoice = customers.get(inputCustomerName-1); //-1 because sequence numbers started at 1 instead of 0
+            System.out.println("You chose customer " + inputCustomerName + ", " + " " + customers.get(inputCustomerName-1).getFirst_name() + " " + customers.get(inputCustomerName-1).getLast_name() );
+         } else {
+            System.out.println("Invalid customer name! Try again.");
+         }
+      } while (!isValid);
+
+      System.out.println();
+
       System.out.print("Available Products:\n");
       for (int i=0; i<products.size(); i++) {  //print product menu
          System.out.println(i+1 + "\t" + products.get(i).getProd_name());
@@ -170,4 +195,25 @@ public class CustomerOrders {
               Products.class).getResultList();
       return products;
    }
+
+   public Customers getCustomerName (String UPC) {
+      // Run the native query that we defined in the Customers entity to find the right style.
+      List<Customers> customers = this.entityManager.createNamedQuery("ReturnCustomerName",
+              Customers.class).setParameter(1, UPC).getResultList();
+      if (customers.size() == 0) {
+         // Invalid style name passed in.
+         return null;
+      } else {
+         // Return the style object that they asked for.
+         return customers.get(0);
+      }
+   }// End of the getStyle method
+
+   public List<Customers> getCustomerNameList ()
+   {
+      List<Customers> customers = this.entityManager.createNamedQuery("ReturnCustomerNameList",
+              Customers.class).getResultList();
+      return customers;
+   }
+
 } // End of CustomerOrders class
