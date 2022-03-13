@@ -29,8 +29,7 @@ import javax.persistence.NamedNativeQuery;
         name="ReturnProductList",
         query = "SELECT * " +
                 "FROM   PRODUCTS " +
-                "WHERE  prod_name = ? " +
-                "ORDER BY prod_name ",
+                "ORDER BY prod_name ", //delete where clause since we want ALL
         resultClass = Products.class
 )
 

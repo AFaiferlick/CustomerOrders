@@ -86,9 +86,9 @@ public class CustomerOrders {
       List <Products> products = new ArrayList<Products>();
       // Load up my List with the Entities that I want to persist.  Note, this does not put them
       // into the database.
-      products.add(new Products("076174517163", "16 oz. Hickory Hammer", "Stanely Tools", "00001", 9.97, 50));
+      //products.add(new Products("076174517163", "16 oz. Hickory Hammer", "Stanely Tools", "00001", 9.97, 50));
       // Create the list of owners in the database.
-      customerOrders.createEntity (products);
+      //customerOrders.createEntity (products);
 
       // Commit the changes so that the new data persists and is visible to other users.
       tx.commit();
@@ -98,27 +98,29 @@ public class CustomerOrders {
       Scanner in = new Scanner(System.in);
       boolean isValid = false;
       int inputProduct = 0;
-      products = customerOrders.getProductList();
-      Products productChoice = null;
+      products = customerOrders.getProductList(); //set products list equal to the retrieved product list
+      customerOrders.createEntity (products); //persist all products
+      Products productChoice = null; //create variable to store customer's product choice
    /*   System.out.print("Enter customer name: ");
       String customerName = in.nextLine(); */
       System.out.print("Available Products:\n");
-      for (int i=0; i<products.size(); i++) {
+      for (int i=0; i<products.size(); i++) {  //print product menu
          System.out.println(i+1 + "\t" + products.get(i).getProd_name());
       }
 
-      do {
+      do { //input validation loop
          System.out.print("Enter sequence number of desired product: ");
-         inputProduct = in.nextInt();
+         inputProduct = in.nextInt(); //take user input in form of int
          if (inputProduct > 0 && inputProduct <= products.size()){
             isValid = true;
             productChoice = products.get(inputProduct-1); //-1 because sequence numbers started at 1 instead of 0
+            System.out.println("You chose product " + inputProduct + ", " + products.get(inputProduct-1).getProd_name());
          } else {
             System.out.println("Invalid product! Try again.");
          }
       } while (!isValid);
 
-
+      System.out.println();
    } // End of the main method
 
    /**
@@ -164,7 +166,6 @@ public class CustomerOrders {
    }// End of the getStyle method
 
    public List<Products> getProductList () {
-      // Run the native query that we defined in the Products entity to find the right style.
       List<Products> products = this.entityManager.createNamedQuery("ReturnProductList",
               Products.class).getResultList();
       return products;
