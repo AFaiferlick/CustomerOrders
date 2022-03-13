@@ -103,7 +103,9 @@ public class CustomerOrders {
       Scanner in = new Scanner(System.in);
       boolean isValid = false;
       int inputProduct = 0;
+      int productAmount = 0;
       int inputCustomerName= 0;
+      String confirm;
       Date currentDate = new Date();
       LocalDateTime current = LocalDateTime.now();
       DateTimeFormatter formatTime = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
@@ -205,6 +207,13 @@ public class CustomerOrders {
             isValid = true;
             productChoice = products.get(inputProduct-1); //-1 because sequence numbers started at 1 instead of 0
             System.out.println("You chose product " + inputProduct + ", " + products.get(inputProduct-1).getProd_name());
+            System.out.println("How many of this product do you wish to purchase: ");
+            productAmount = in.nextInt();
+            System.out.println("you selected " + productAmount + " of " + products.get(inputProduct-1).getProd_name() + "is this correct (y/n)?");
+            confirm = in.nextLine();
+            if (confirm == "y" || confirm == "Y"){
+               // a easy for loop to just add x amount of product.
+            }
          } else {
             System.out.println("Invalid product! Try again.");
          }
