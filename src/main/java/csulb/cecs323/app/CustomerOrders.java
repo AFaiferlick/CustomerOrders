@@ -279,7 +279,7 @@ public class CustomerOrders {
                /*System.out.println("You selected " + productAmount + " of " + productChoiceName + "\nIs this correct (y/n)?");
                confirm = in.next().toUpperCase();
                if (confirm.equals("Y")){*/
-                  if (productAmount <= productChoice.getUnits_in_stock()) {
+                  if (productAmount <= productChoice.getUnits_in_stock()) { // Checks if there is enough product to complete purchase
                      productsUPCs.add(productChoice.getUPC());
                      productsQuantities.add(0, productAmount);
                      productsPrices.add(0, productChoice.getUnit_list_price());
@@ -318,9 +318,14 @@ public class CustomerOrders {
       int finalizeOrder = getInteger(1, 2);
       if (finalizeOrder == 1) {
          //add rows in Order_Lines
+         System.out.println(" == Thank you for your Purchase! == ");
+         System.out.println("Quantity\tProduct");
+         System.out.println(productAmount + "x\t" + productChoice.getProd_name());
          //change product quantities
+         productChoice.getUnits_in_stock() = productChoice.getUnits_in_stock() - productAmount; // needs a better implementation
       } else { //if they don't want to place order, they want to abort it
          //abort transaction
+         System.out.println(" === Thank You for shopping with us === \n\n\n");
       }
 
       System.out.println();
