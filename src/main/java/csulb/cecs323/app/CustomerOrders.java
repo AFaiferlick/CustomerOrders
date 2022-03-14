@@ -139,7 +139,7 @@ public class CustomerOrders {
       isValid = false;
 
       int orderDateChoice = 0;
-      System.out.println("Enter Order Date: \n1. Current \n2. Present");
+      System.out.println("Enter Order Date: \n1. New Order \n2. Present");
       orderDateChoice = getInteger(0, 2);
       boolean valid = false;
 
