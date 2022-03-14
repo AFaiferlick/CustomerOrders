@@ -127,7 +127,7 @@ public class CustomerOrders {
       }
 
       System.out.print("Enter the sequence number of desired customer name: ");
-      inputCustomerName = getInteger(0, customers.size());
+      inputCustomerName = getInteger(1, customers.size());
       customerNameChoice = customers.get(inputCustomerName - 1); //-1 because sequence numbers started at 1 instead of 0
       System.out.println("You chose Customer " + inputCustomerName + ", " + " " +
               customers.get(inputCustomerName - 1).getFirst_name() + " " +
@@ -140,7 +140,7 @@ public class CustomerOrders {
 
       int orderDateChoice = 0;
       System.out.println("Enter Order Date: \n1. New Order \n2. Present");
-      orderDateChoice = getInteger(0, 2);
+      orderDateChoice = getInteger(1, 2);
       boolean valid = false;
 
       if(orderDateChoice == 1)
@@ -151,13 +151,13 @@ public class CustomerOrders {
       }
       else if(orderDateChoice == 2)
       {
-         int Date = 0;
+         int userDate = 0;
          System.out.println("Enter Order Date Year (2000-2022): \n");
          valid = false;
          while (!valid) {
             if (in.hasNextInt()) {
-               Date = in.nextInt();
-               if (Date <= 2022 && orderDateChoice >= 2000) {
+               userDate = in.nextInt();
+               if (userDate <= 2022 && userDate >= 2000) {
                   valid = true;
                } else {
                   System.out.println("Invalid Range.");
@@ -179,25 +179,41 @@ public class CustomerOrders {
       for (int i=0; i<products.size(); i++) {  //print product menu
          System.out.println(i+1 + "\t" + products.get(i).getProd_name());
       }
+
       System.out.println("========================================");
+      int userChoice = 0;
       do { //input validation loop
          System.out.print("\nEnter sequence number of desired product: ");
          inputProduct = in.nextInt(); //take user input in form of int
+         String productChoiceName = "";
          if (inputProduct > 0 && inputProduct <= products.size()){
             isValid = true;
             productChoice = products.get(inputProduct-1); //-1 because sequence numbers started at 1 instead of 0
-            System.out.println("You chose product " + inputProduct + ", " + products.get(inputProduct-1).getProd_name());
+            productChoiceName = productChoice.getProd_name();
+
+            System.out.println("You chose product " + inputProduct + ", " + productChoiceName);
             System.out.println("How many of this product do you wish to purchase: ");
             productAmount = in.nextInt();
-            System.out.println("you selected " + productAmount + " of " + products.get(inputProduct-1).getProd_name() + "is this correct (y/n)?");
-            confirm = in.nextLine();
-            if (confirm == "y" || confirm == "Y"){
-               if (productAmount <= products.get(inputProduct-1).getUnits_in_stock() ){
+            /*System.out.println("You selected " + productAmount + " of " + productChoiceName + "\nIs this correct (y/n)?");
+            confirm = in.next().toUpperCase();
+            if (confirm.equals("Y")){*/
+               if (productAmount <= productChoice.getUnits_in_stock() ){
                   // add into cart.
+                  System.out.println(productChoiceName + " [Quantity: " + productAmount + "] has been added to your cart.");
                }else{
-                  System.out.println("Sorry We don't have enough stock of product "+ products.get(inputProduct-1).getProd_name() + "\nPlease select less items\n");
+                  System.out.println("Sorry! We don't have enough stock of product " + productChoiceName + "!");
+                  System.out.println("Would you like to:\n1. Remove " + productChoiceName + " from your order\n" +
+                          "2. Abort the order");
+
+                  userChoice = getInteger(1, 2);
+                  switch (userChoice) {
+                     case 1: System.out.println(productChoiceName + " has been removed from your order."); break;
+                     case 2: System.out.println("The current order has been aborted."); break;
+                  }
                }
-            }
+            /*} else {
+               isValid = false;
+            }*/
          } else {
             System.out.println("Invalid product! Try again.");
          }
@@ -283,7 +299,7 @@ public class CustomerOrders {
       while (!isValid) {
          if (in.hasNextInt()) {
             userInput = in.nextInt();
-            if (userInput > minRange && userInput <= maxRange) {
+            if (userInput >= minRange && userInput <= maxRange) {
                isValid = true;
 
             } else {
