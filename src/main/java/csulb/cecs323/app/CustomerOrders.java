@@ -152,7 +152,8 @@ public class CustomerOrders {
       isValid = false;
 
       int orderDateChoice = 0;
-      System.out.print("Enter Order Date: \n1. Current \n2. Present\n");
+      //System.out.print("Enter Order Date: \n1. Current \n2. Present\n");
+      System.out.print("Enter Order Date: \n1. New Order \n2. Present???\n");
       boolean valid = false;
       while (!valid)
       {
@@ -174,8 +175,9 @@ public class CustomerOrders {
 
       if(orderDateChoice == 1)
       {
-         System.out.println("Order Date Set As: \n");
+         System.out.println("Order Date Set As:\t");
          System.out.println(currentDate);
+         System.out.println("========================================\n");
       }
       else if(orderDateChoice == 2)
       {
@@ -203,13 +205,13 @@ public class CustomerOrders {
          System.out.println("Error.");
       }
 
-      System.out.print("Available Products:\n");
+      System.out.print(" +=== Available Products ===+\n");
       for (int i=0; i<products.size(); i++) {  //print product menu
          System.out.println(i+1 + "\t" + products.get(i).getProd_name());
       }
-
+      System.out.println("========================================");
       do { //input validation loop
-         System.out.print("Enter sequence number of desired product: ");
+         System.out.print("\nEnter sequence number of desired product: ");
          inputProduct = in.nextInt(); //take user input in form of int
          if (inputProduct > 0 && inputProduct <= products.size()){
             isValid = true;
