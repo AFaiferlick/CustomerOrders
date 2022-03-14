@@ -262,7 +262,7 @@ public class CustomerOrders {
          // Return the style object that they asked for.
          return products.get(0);
       }
-   }// End of the getStyle method
+   }// End of the getProduct method
 
    public List<Products> getProductList () {
       List<Products> products = this.entityManager.createNamedQuery("ReturnProductList",
@@ -288,9 +288,14 @@ public class CustomerOrders {
       List<Customers> customers = this.entityManager.createNamedQuery("ReturnCustomerNameList",
               Customers.class).getResultList();
       return customers;
-   }
+   } // End of getCustomerNameList method
 
-   /** Gets and validates user input between min and max (inclusive) **/
+   /** Returns an integer between the specified minimum and maximum range (inclusive).
+    *  Validates user input
+    *  @param minRange     The minimum integer that the user can input.
+    *  @param maxRange     The maximum integer that the user can input.
+    *  @return An integer between the given range.
+    */
    public static int getInteger(int minRange, int maxRange) {
       boolean isValid = false;
       int userInput = 0;
@@ -310,8 +315,8 @@ public class CustomerOrders {
             System.out.println("Invalid input! Try again.");
          }
       }
-
       return userInput;
-   }
+
+   } // End of getInteger method
 
 } // End of CustomerOrders class
