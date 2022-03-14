@@ -159,51 +159,50 @@ public class CustomerOrders {
 
       if(orderDateChoice == 1)
       {
-         System.out.println("Order Date Set As: \n");
-         System.out.println(currentDate);
+         System.out.println("Order Date Set As: " + currentDate);
       }
       else if(orderDateChoice == 2)
       {
          int orderYear = 0;
-         System.out.println("Enter Order Date Year (2000-2022): \n");
+         System.out.println("Enter Order Date Year (2000-" + (currentDate.getYear()+1900) + "): ");
          valid = false;
          while (!valid) {
             if (in.hasNextInt()) {
                orderYear = in.nextInt();
-               if (orderYear <= 2022 && orderDateChoice >= 2000) {
+               if (orderYear <= currentDate.getYear()+1900 && orderYear >= 2000) { //check that year is within 2000-2022 inclusive
                   valid = true;
-               } else {
-                  System.out.println("Invalid Range.");
-                  in.next();
+               } else if(orderYear-1900 > currentDate.getYear()) { //check that orderYear isn't greater than current year. orderYear subtracts 1900 from current year
+                  System.out.println("Order can not be placed in the future.");
                }
-            } else {
+               else { //otherwise, invalid range
+                  System.out.println("Invalid Range.");
+               }
+            } else { //case of non-integer input
                in.next();
                System.out.println("Invalid Input.");
             }
          }
 
          int orderMonth = 0;
-         System.out.println("Enter Order Month (1-12): \n");
+         System.out.println("Enter Order Month (1-12): ");
          valid = false;
          while (!valid) {
             if (in.hasNextInt()) {
-               orderYear = in.nextInt();
-               if (orderYear <= 12 && orderDateChoice >= 1) {
-                  if (orderYear == 2022)
+               orderMonth = in.nextInt();
+               if (orderYear == (currentDate.getYear()+1900)) { //if the order year is current real-world year
+                  if(orderMonth <= (currentDate.getMonth() + 1) && orderMonth >= 1) //ensure it isn't in future
                   {
-                     if(orderMonth <= (currentDate.getMonth() + 1))
-                     {
-                        valid = true;
-                     }
-                     else
-                     {
-                        System.out.println("Order can not be placed in the future.");
-                        in.next();
-                     }
+                     valid = true;
+                  } else if(orderMonth > 12 || orderMonth < 1) { //check for months out of range
+                     System.out.println("Invalid Range.");
                   }
+                  else {  //otherwise, order is in future (between current real-world month and 12)
+                     System.out.println("Order can not be placed in the future.");
+                  }
+               } else if (orderMonth <= 12 && orderMonth >= 1) { //if not 2022, validate month
+                  valid = true;
                } else {
                   System.out.println("Invalid Range.");
-                  in.next();
                }
             } else {
                in.next();
@@ -212,27 +211,31 @@ public class CustomerOrders {
          }
 
          int orderDay = 0;
-         System.out.println("Enter Day Month (1-31): \n");
+         System.out.println("Enter Order Day (1-31): ");
          valid = false;
          while (!valid) {
             if (in.hasNextInt()) {
                orderDay = in.nextInt();
-               if (orderDay <= 31 && orderDateChoice >= 1) {
-                  if (orderMonth == (currentDate.getMonth() + 1))
+               if (orderYear == (currentDate.getYear()+1900)) { //if the order year is current real-world year
+                  if (orderMonth == (currentDate.getMonth() + 1)) //check if order month is current real month
                   {
-                     if(orderDay <= (currentDate.getDay() + 1))
+                     if(orderDay <= 14 && orderDay >= 1) //ensure it isn't in future. had to hardcode day of month because couldn't find a relevant method
                      {
                         valid = true;
-                     }
-                     else
-                     {
+                     } else if(orderDay < 1 || orderDay > 31) { //not in future but not valid range
+                        System.out.println("Invalid Range.");
+                     } else { //not valid outside valid range, but not inside valid range, so in future
                         System.out.println("Order can not be placed in the future.");
-                        in.next();
                      }
+                  } else if(orderDay <= 31 && orderDay >= 1) { //in case of current year but not current month
+                     valid = true;
+                  } else {
+                     System.out.println("Invalid Range.");
                   }
+               } else if(orderDay <= 31 && orderDay >= 1) { //in case of not current year
+                  valid = true;
                } else {
                   System.out.println("Invalid Range.");
-                  in.next();
                }
             } else {
                in.next();
@@ -339,13 +342,13 @@ public class CustomerOrders {
       }
    }// End of the getProduct method
 
-   public List<Products> getProductList () {
+   public List<Products> getProductList () {  //for use in PART 2
       List<Products> products = this.entityManager.createNamedQuery("ReturnProductList",
               Products.class).getResultList();
       return products;
    }
 
-   public Customers getCustomerName (String UPC) {
+   public Customers getCustomerName (String UPC) { //for use in PART 1
       // Run the native query that we defined in the Customers entity to find the right style.
       List<Customers> customers = this.entityManager.createNamedQuery("ReturnCustomerName",
               Customers.class).setParameter(1, UPC).getResultList();
@@ -358,7 +361,7 @@ public class CustomerOrders {
       }
    }// End of the getStyle method
 
-   public List<Customers> getCustomerNameList ()
+   public List<Customers> getCustomerNameList () //for use in PART 1
    {
       List<Customers> customers = this.entityManager.createNamedQuery("ReturnCustomerNameList",
               Customers.class).getResultList();
