@@ -152,7 +152,7 @@ public class CustomerOrders {
       isValid = false;
 
       int orderDateChoice = 0;
-      System.out.print("Enter Order Date: /n1. Current /n2. Present\n");
+      System.out.print("Enter Order Date: \n1. Current \n2. Present\n");
       boolean valid = false;
       while (!valid)
       {
