@@ -127,14 +127,22 @@ public class CustomerOrders {
       }
 
       do { //input validation loop
-         System.out.print("Enter Sequence Number of Desired Customer Name: ");
-         inputCustomerName = in.nextInt(); //take user input in form of int
-         if (inputCustomerName > 0 && inputCustomerName <= customers.size()){
-            isValid = true;
-            customerNameChoice = customers.get(inputCustomerName-1); //-1 because sequence numbers started at 1 instead of 0
-            System.out.println("You Chose Customer " + inputCustomerName + ", " + " " + customers.get(inputCustomerName-1).getFirst_name() + " " + customers.get(inputCustomerName-1).getLast_name() );
+         System.out.print("Enter sequence number of desired customer name: ");
+         if (in.hasNextInt()) {
+            inputCustomerName = in.nextInt(); //take user input in form of int
+            if (inputCustomerName > 0 && inputCustomerName <= customers.size()) {
+               isValid = true;
+               customerNameChoice = customers.get(inputCustomerName - 1); //-1 because sequence numbers started at 1 instead of 0
+               System.out.println("You chose Customer " + inputCustomerName + ", " + " " +
+                       customers.get(inputCustomerName - 1).getFirst_name() + " " +
+                       customers.get(inputCustomerName - 1).getLast_name());
+            } else {
+               System.out.println("Invalid range! Please try again.");
+            }
          } else {
-            System.out.println("Invalid Customer Name! Try Again.");
+            in.next(); // clear invalid input
+            System.out.println("Invalid input! Please try again.");
+
          }
       } while (!isValid);
 
