@@ -212,7 +212,11 @@ public class CustomerOrders {
             System.out.println("you selected " + productAmount + " of " + products.get(inputProduct-1).getProd_name() + "is this correct (y/n)?");
             confirm = in.nextLine();
             if (confirm == "y" || confirm == "Y"){
-               // a easy for loop to just add x amount of product.
+               if (productAmount <= products.get(inputProduct-1).getUnits_in_stock() ){
+                  // add into cart.
+               }else{
+                  System.out.println("Sorry We don't have enough stock of product "+ products.get(inputProduct-1).getProd_name() + "\nPlease select less items\n");
+               }
             }
          } else {
             System.out.println("Invalid product! Try again.");
