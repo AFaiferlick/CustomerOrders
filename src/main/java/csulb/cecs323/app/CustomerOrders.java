@@ -20,8 +20,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -105,9 +103,9 @@ public class CustomerOrders {
       int inputProduct = 0;
       int inputCustomerName= 0;
       Date currentDate = new Date();
-      LocalDateTime current = LocalDateTime.now();
-      DateTimeFormatter formatTime = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-      String formattedDate = current.format(formatTime);
+//      LocalDateTime current = LocalDateTime.now();
+//      DateTimeFormatter formatTime = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+//      String formattedDate = current.format(formatTime);
 
       products = customerOrders.getProductList(); //set products list equal to the retrieved product list
       customerOrders.createEntity (products); //persist all products
@@ -136,13 +134,11 @@ public class CustomerOrders {
          }
       } while (!isValid);
 
-      System.out.println(currentDate);
-
       System.out.println();
       isValid = false;
 
       int orderDateChoice = 0;
-      System.out.print("Enter Order Date: /n1. Current /n2. Present\n");
+      System.out.print("Enter Order Date: /n1. Default to Current /n2. Enter Date\n");
       boolean valid = false;
       while (!valid)
       {
@@ -169,16 +165,17 @@ public class CustomerOrders {
       }
       else if(orderDateChoice == 2)
       {
-         int Date = 0;
+         int orderYear = 0;
          System.out.println("Enter Order Date Year (2000-2022): \n");
          valid = false;
          while (!valid) {
             if (in.hasNextInt()) {
-               Date = in.nextInt();
-               if (Date <= 2022 && orderDateChoice >= 2000) {
+               orderYear = in.nextInt();
+               if (orderYear <= 2022 && orderDateChoice >= 2000) {
                   valid = true;
                } else {
                   System.out.println("Invalid Range.");
+                  in.next();
                }
             } else {
                in.next();
@@ -186,6 +183,64 @@ public class CustomerOrders {
             }
          }
 
+         int orderMonth = 0;
+         System.out.println("Enter Order Month (1-12): \n");
+         valid = false;
+         while (!valid) {
+            if (in.hasNextInt()) {
+               orderYear = in.nextInt();
+               if (orderYear <= 12 && orderDateChoice >= 1) {
+                  if (orderYear == 2022)
+                  {
+                     if(orderMonth <= (currentDate.getMonth() + 1))
+                     {
+                        valid = true;
+                     }
+                     else
+                     {
+                        System.out.println("Order can not be placed in the future.");
+                        in.next();
+                     }
+                  }
+               } else {
+                  System.out.println("Invalid Range.");
+                  in.next();
+               }
+            } else {
+               in.next();
+               System.out.println("Invalid Input.");
+            }
+         }
+
+         int orderDay = 0;
+         System.out.println("Enter Day Month (1-31): \n");
+         valid = false;
+         while (!valid) {
+            if (in.hasNextInt()) {
+               orderDay = in.nextInt();
+               if (orderDay <= 31 && orderDateChoice >= 1) {
+                  if (orderMonth == (currentDate.getMonth() + 1))
+                  {
+                     if(orderDay <= (currentDate.getDay() + 1))
+                     {
+                        valid = true;
+                     }
+                     else
+                     {
+                        System.out.println("Order can not be placed in the future.");
+                        in.next();
+                     }
+                  }
+               } else {
+                  System.out.println("Invalid Range.");
+                  in.next();
+               }
+            } else {
+               in.next();
+               System.out.println("Invalid Input.");
+            }
+         }
+         Date orderDate = new Date(orderYear, (orderMonth - 1), orderDay);
 
       }
       else
