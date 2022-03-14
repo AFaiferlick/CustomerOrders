@@ -105,6 +105,10 @@ public class CustomerOrders {
       int inputProduct = 0;
       int productAmount = 0;
       int inputCustomerName= 0;
+      List<String> productsUPCs = new ArrayList<String>();  //for use in product_upc column
+      List<Integer> productsQuantities = new ArrayList<Integer>();  //quantity column
+      List<Double> productsPrices = new ArrayList<Double>();  //unit_sale_price column
+      Date orderDate = null;  //order_date column
       String confirm;
       Date currentDate = new Date();
       LocalDateTime current = LocalDateTime.now();
@@ -242,8 +246,7 @@ public class CustomerOrders {
                System.out.println("Invalid Input.");
             }
          }
-         Date orderDate = new Date(orderYear, (orderMonth - 1), orderDay);
-
+         orderDate = new Date(orderYear, (orderMonth - 1), orderDay);
       }
       else
       {
@@ -251,51 +254,74 @@ public class CustomerOrders {
       }
 
 
-
-
-      System.out.print(" +=== Available Products ===+\n");
+      System.out.print("\n +=== Available Products ===+\n");
       for (int i=0; i<products.size(); i++) {  //print product menu
          System.out.println(i+1 + "\t" + products.get(i).getProd_name());
       }
 
       System.out.println("========================================");
       int userChoice = 0;
-      do { //input validation loop
-         System.out.print("\nEnter sequence number of desired product: ");
-         inputProduct = in.nextInt(); //take user input in form of int
-         String productChoiceName = "";
-         if (inputProduct > 0 && inputProduct <= products.size()){
-            isValid = true;
-            productChoice = products.get(inputProduct-1); //-1 because sequence numbers started at 1 instead of 0
-            productChoiceName = productChoice.getProd_name();
+      int moreProduct = 2;
+      do {
+         do { //input validation loop
+            System.out.print("\nEnter sequence number of desired product: ");
+            if (in.hasNextInt()) { //check against non-integer input
+               inputProduct = in.nextInt(); //take user input in form of int
+               String productChoiceName = "";
+               if (inputProduct > 0 && inputProduct <= products.size()) {
+                  isValid = true;
+                  productChoice = products.get(inputProduct - 1); //-1 because sequence numbers started at 1 instead of 0
+                  productChoiceName = productChoice.getProd_name();
 
-            System.out.println("You chose product " + inputProduct + ", " + productChoiceName);
-            System.out.println("How many of this product do you wish to purchase: ");
-            productAmount = in.nextInt();
-            /*System.out.println("You selected " + productAmount + " of " + productChoiceName + "\nIs this correct (y/n)?");
-            confirm = in.next().toUpperCase();
-            if (confirm.equals("Y")){*/
-               if (productAmount <= productChoice.getUnits_in_stock() ){
-                  // add into cart.
-                  System.out.println(productChoiceName + " [Quantity: " + productAmount + "] has been added to your cart.");
-               }else{
-                  System.out.println("Sorry! We don't have enough stock of product " + productChoiceName + "!");
-                  System.out.println("Would you like to:\n1. Remove " + productChoiceName + " from your order\n" +
-                          "2. Abort the order");
+                  System.out.println("You chose product " + inputProduct + ", " + productChoiceName);
+                  System.out.println("How many of this product do you wish to purchase: ");
+                  productAmount = in.nextInt();
+               /*System.out.println("You selected " + productAmount + " of " + productChoiceName + "\nIs this correct (y/n)?");
+               confirm = in.next().toUpperCase();
+               if (confirm.equals("Y")){*/
+                  if (productAmount <= productChoice.getUnits_in_stock()) {
+                     productsUPCs.add(productChoice.getUPC());
+                     productsQuantities.add(0, productAmount);
+                     productsPrices.add(0, productChoice.getUnit_list_price());
+                     System.out.println(productChoiceName + " [Quantity: " + productAmount + "] has been added to your cart.");
+                  } else {
+                     System.out.println("Sorry! We don't have enough stock of product " + productChoiceName + "! We only have " + productChoice.getUnits_in_stock() + " left.");
+                     //System.out.println("Would you like to:\n1. Remove " + productChoiceName + " from your order\n" +
+                     //"2. Abort the order");
 
-                  userChoice = getInteger(1, 2);
-                  switch (userChoice) {
-                     case 1: System.out.println(productChoiceName + " has been removed from your order."); break;
-                     case 2: System.out.println("The current order has been aborted."); break;
+                     //userChoice = getInteger(1, 2);
+                     //switch (userChoice) {
+                     //case 1: System.out.println(productChoiceName + " has been removed from your order."); break;
+                     //case 2: System.out.println("The current order has been aborted."); break;
+                     //}
                   }
+               } else {
+                  System.out.println("Invalid product! Try again.");
                }
-            /*} else {
-               isValid = false;
-            }*/
-         } else {
-            System.out.println("Invalid product! Try again.");
-         }
-      } while (!isValid);
+            } else {
+               in.next();
+               System.out.println("Invalid Input.");
+            }
+         } while (!isValid);
+         System.out.println("Would you like to:\n 1. Order another product\n 2. Finalize order");
+         moreProduct = getInteger(1, 2);
+      } while(moreProduct == 1);
+
+      //Order total
+      double orderTotal = 0;
+      for (int i = 0; i < productsQuantities.size(); i++) {
+         orderTotal += (productsQuantities.get(i) * productsPrices.get(i));
+      }
+      System.out.println("Your order total is $" + orderTotal); //part 3di
+
+      System.out.println("Would you like to:\n 1. Place your order\n 2. Abort your order");
+      int finalizeOrder = getInteger(1, 2);
+      if (finalizeOrder == 1) {
+         //add rows in Order_Lines
+         //change product quantities
+      } else { //if they don't want to place order, they want to abort it
+         //abort transaction
+      }
 
       System.out.println();
    } // End of the main method
