@@ -133,13 +133,11 @@ public class CustomerOrders {
               customers.get(inputCustomerName - 1).getFirst_name() + " " +
               customers.get(inputCustomerName - 1).getLast_name());
 
-      System.out.println(currentDate);
-
       System.out.println();
       isValid = false;
 
       int orderDateChoice = 0;
-      System.out.print("Enter Order Date: /n1. Default to Current /n2. Enter Date\n");
+      System.out.print("Enter Order Date: \n1. Default to Current \n2. Enter Date\n");
       boolean valid = false;
       while (!valid)
       {
