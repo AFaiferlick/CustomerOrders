@@ -126,25 +126,12 @@ public class CustomerOrders {
          System.out.println(i+1 + "\t" + customers.get(i).getLast_name() + " " + customers.get(i).getFirst_name());
       }
 
-      do { //input validation loop
-         System.out.print("Enter sequence number of desired customer name: ");
-         if (in.hasNextInt()) {
-            inputCustomerName = in.nextInt(); //take user input in form of int
-            if (inputCustomerName > 0 && inputCustomerName <= customers.size()) {
-               isValid = true;
-               customerNameChoice = customers.get(inputCustomerName - 1); //-1 because sequence numbers started at 1 instead of 0
-               System.out.println("You chose Customer " + inputCustomerName + ", " + " " +
-                       customers.get(inputCustomerName - 1).getFirst_name() + " " +
-                       customers.get(inputCustomerName - 1).getLast_name());
-            } else {
-               System.out.println("Invalid range! Please try again.");
-            }
-         } else {
-            in.next(); // clear invalid input
-            System.out.println("Invalid input! Please try again.");
-
-         }
-      } while (!isValid);
+      System.out.print("Enter the sequence number of desired customer name: ");
+      inputCustomerName = getInteger(0, customers.size());
+      customerNameChoice = customers.get(inputCustomerName - 1); //-1 because sequence numbers started at 1 instead of 0
+      System.out.println("You chose Customer " + inputCustomerName + ", " + " " +
+              customers.get(inputCustomerName - 1).getFirst_name() + " " +
+              customers.get(inputCustomerName - 1).getLast_name());
 
       System.out.println(currentDate);
 
@@ -152,25 +139,9 @@ public class CustomerOrders {
       isValid = false;
 
       int orderDateChoice = 0;
-      System.out.print("Enter Order Date: /n1. Current /n2. Present\n");
+      System.out.println("Enter Order Date: \n1. Current \n2. Present");
+      orderDateChoice = getInteger(0, 2);
       boolean valid = false;
-      while (!valid)
-      {
-         if(in.hasNextInt()){
-            orderDateChoice = in.nextInt();
-            if(orderDateChoice <= 2 && orderDateChoice >= 1){
-               valid = true;
-            }
-            else
-            {
-               System.out.println("Invalid Range.");
-            }
-         }
-         else {
-            in.next();
-            System.out.println("Invalid Input.");
-         }
-      }
 
       if(orderDateChoice == 1)
       {
@@ -305,6 +276,30 @@ public class CustomerOrders {
       List<Customers> customers = this.entityManager.createNamedQuery("ReturnCustomerNameList",
               Customers.class).getResultList();
       return customers;
+   }
+
+   /** Gets and validates user input between min and max (inclusive) **/
+   public static int getInteger(int minRange, int maxRange) {
+      boolean isValid = false;
+      int userInput = 0;
+      Scanner in = new Scanner(System.in);
+
+      while (!isValid) {
+         if (in.hasNextInt()) {
+            userInput = in.nextInt();
+            if (userInput > minRange && userInput <= maxRange) {
+               isValid = true;
+
+            } else {
+               System.out.println("Invalid range. Try again!");
+            }
+         } else {
+            in.next(); // clear invalid input
+            System.out.println("Invalid input! Try again.");
+         }
+      }
+
+      return userInput;
    }
 
 } // End of CustomerOrders class
