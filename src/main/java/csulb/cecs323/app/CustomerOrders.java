@@ -139,28 +139,44 @@ public class CustomerOrders {
       isValid = false;
 
       int orderDateChoice = 0;
-      System.out.println("Enter Order Date: \n1. New Order \n2. Present");
-      orderDateChoice = getInteger(1, 2);
+      System.out.print("Enter Order Date: /n1. Default to Current /n2. Enter Date\n");
       boolean valid = false;
+      while (!valid)
+      {
+         if(in.hasNextInt()){
+            orderDateChoice = in.nextInt();
+            if(orderDateChoice <= 2 && orderDateChoice >= 1){
+               valid = true;
+            }
+            else
+            {
+               System.out.println("Invalid Range.");
+            }
+         }
+         else {
+            in.next();
+            System.out.println("Invalid Input.");
+         }
+      }
 
       if(orderDateChoice == 1)
       {
-         System.out.println("Order Date Set As:\t");
+         System.out.println("Order Date Set As: \n");
          System.out.println(currentDate);
-         System.out.println("========================================\n");
       }
       else if(orderDateChoice == 2)
       {
-         int userDate = 0;
+         int orderYear = 0;
          System.out.println("Enter Order Date Year (2000-2022): \n");
          valid = false;
          while (!valid) {
             if (in.hasNextInt()) {
-               userDate = in.nextInt();
-               if (userDate <= 2022 && userDate >= 2000) {
+               orderYear = in.nextInt();
+               if (orderYear <= 2022 && orderDateChoice >= 2000) {
                   valid = true;
                } else {
                   System.out.println("Invalid Range.");
+                  in.next();
                }
             } else {
                in.next();
@@ -168,12 +184,73 @@ public class CustomerOrders {
             }
          }
 
+         int orderMonth = 0;
+         System.out.println("Enter Order Month (1-12): \n");
+         valid = false;
+         while (!valid) {
+            if (in.hasNextInt()) {
+               orderYear = in.nextInt();
+               if (orderYear <= 12 && orderDateChoice >= 1) {
+                  if (orderYear == 2022)
+                  {
+                     if(orderMonth <= (currentDate.getMonth() + 1))
+                     {
+                        valid = true;
+                     }
+                     else
+                     {
+                        System.out.println("Order can not be placed in the future.");
+                        in.next();
+                     }
+                  }
+               } else {
+                  System.out.println("Invalid Range.");
+                  in.next();
+               }
+            } else {
+               in.next();
+               System.out.println("Invalid Input.");
+            }
+         }
+
+         int orderDay = 0;
+         System.out.println("Enter Day Month (1-31): \n");
+         valid = false;
+         while (!valid) {
+            if (in.hasNextInt()) {
+               orderDay = in.nextInt();
+               if (orderDay <= 31 && orderDateChoice >= 1) {
+                  if (orderMonth == (currentDate.getMonth() + 1))
+                  {
+                     if(orderDay <= (currentDate.getDay() + 1))
+                     {
+                        valid = true;
+                     }
+                     else
+                     {
+                        System.out.println("Order can not be placed in the future.");
+                        in.next();
+                     }
+                  }
+               } else {
+                  System.out.println("Invalid Range.");
+                  in.next();
+               }
+            } else {
+               in.next();
+               System.out.println("Invalid Input.");
+            }
+         }
+         Date orderDate = new Date(orderYear, (orderMonth - 1), orderDay);
 
       }
       else
       {
          System.out.println("Error.");
       }
+
+
+
 
       System.out.print(" +=== Available Products ===+\n");
       for (int i=0; i<products.size(); i++) {  //print product menu
