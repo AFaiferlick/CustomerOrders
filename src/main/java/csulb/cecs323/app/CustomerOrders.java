@@ -210,24 +210,29 @@ public class CustomerOrders {
 
       do { //input validation loop
          System.out.print("Enter sequence number of desired product: ");
-         inputProduct = in.nextInt(); //take user input in form of int
-         if (inputProduct > 0 && inputProduct <= products.size()){
-            isValid = true;
-            productChoice = products.get(inputProduct-1); //-1 because sequence numbers started at 1 instead of 0
-            System.out.println("You chose product " + inputProduct + ", " + products.get(inputProduct-1).getProd_name());
-            System.out.println("How many of this product do you wish to purchase: ");
-            productAmount = in.nextInt();
-            System.out.println("you selected " + productAmount + " of " + products.get(inputProduct-1).getProd_name() + "is this correct (y/n)?");
-            confirm = in.nextLine();
-            if (confirm == "y" || confirm == "Y"){
-               if (productAmount <= products.get(inputProduct-1).getUnits_in_stock() ){
-                  // add into cart.
-               }else{
-                  System.out.println("Sorry We don't have enough stock of product "+ products.get(inputProduct-1).getProd_name() + "\nPlease select less items\n");
+         if (in.hasNextInt()) {
+            inputProduct = in.nextInt(); //take user input in form of int
+            if (inputProduct > 0 && inputProduct <= products.size()) {
+               isValid = true;
+               productChoice = products.get(inputProduct - 1); //-1 because sequence numbers started at 1 instead of 0
+               System.out.println("You chose product " + inputProduct + ", " + products.get(inputProduct - 1).getProd_name());
+               System.out.println("How many of this product do you wish to purchase: ");
+               productAmount = in.nextInt();
+               System.out.println("you selected " + productAmount + " of " + products.get(inputProduct - 1).getProd_name() + "is this correct (y/n)?");
+               confirm = in.nextLine();
+               if (confirm == "y" || confirm == "Y") {
+                  if (productAmount <= products.get(inputProduct - 1).getUnits_in_stock()) {
+                     // add into cart.
+                  } else {
+                     System.out.println("Sorry We don't have enough stock of product " + products.get(inputProduct - 1).getProd_name() + "\nPlease select less items\n");
+                  }
                }
+            } else {
+               System.out.println("Invalid product! Try again.");
             }
          } else {
-            System.out.println("Invalid product! Try again.");
+            in.next(); // clear invalid input
+            System.out.println("Invalid input! Try again.");
          }
       } while (!isValid);
 
