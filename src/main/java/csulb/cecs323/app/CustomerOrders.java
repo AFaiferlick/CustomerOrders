@@ -307,7 +307,9 @@ public class CustomerOrders {
          //add rows in Order_Lines
          System.out.println(" == Thank you for your Purchase! == ");
          System.out.println("Quantity\tProduct");
-         System.out.println(productAmount + "x\t" + productChoice.getProd_name());
+         for (int i = 0; i < productsBought.size(); i++) {
+            System.out.println(productsQuantities.get(i) + "x\t" + productsBought.get(i).getProd_name());
+         }
 
          List<Order_lines> order_linesList = new ArrayList<Order_lines>();
          LocalDateTime orderDateTime = LocalDateTime.of(orderDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), current.toLocalTime());
@@ -318,6 +320,9 @@ public class CustomerOrders {
          }
          customerOrders.createEntity(order_linesList);  //create order_lines objects in database
          //change product quantities
+         for (int i = 0; i < productsBought.size(); i++) {
+            productsBought.get(i).setUnits_in_stock(productChoice.getUnits_in_stock() - productAmount);
+         }
          productChoice.setUnits_in_stock(productChoice.getUnits_in_stock() - productAmount); //implementation quesitonable
       } else { //if they don't want to place order, they want to abort it
          //abort transaction
