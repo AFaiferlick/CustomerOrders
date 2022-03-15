@@ -21,6 +21,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.ArrayList;
@@ -143,27 +144,12 @@ public class CustomerOrders {
       int orderDateChoice = 0;
       System.out.print("Enter Order Date: \n1. Default to Current \n2. Enter Date\n");
       boolean valid = false;
-      while (!valid)
-      {
-         if(in.hasNextInt()){
-            orderDateChoice = in.nextInt();
-            if(orderDateChoice <= 2 && orderDateChoice >= 1){
-               valid = true;
-            }
-            else
-            {
-               System.out.println("Invalid Range.");
-            }
-         }
-         else {
-            in.next();
-            System.out.println("Invalid Input.");
-         }
-      }
+      orderDateChoice = getInteger(1, 2);
 
       if(orderDateChoice == 1)
       {
          System.out.println("Order Date Set As: " + currentDate);
+         orderDate = currentDate;
       }
       else if(orderDateChoice == 2)
       {
@@ -285,7 +271,8 @@ public class CustomerOrders {
                      productsPrices.add(0, productChoice.getUnit_list_price());
                      System.out.println(productChoiceName + " [Quantity: " + productAmount + "] has been added to your cart.");
                   } else {
-                     System.out.println("Sorry! We don't have enough stock of product " + productChoiceName + "! We only have " + productChoice.getUnits_in_stock() + " left.");
+                     System.out.println("Sorry! We don't have enough stock of product " + productChoiceName +
+                             "! We only have " + productChoice.getUnits_in_stock() + " left.");
                      //System.out.println("Would you like to:\n1. Remove " + productChoiceName + " from your order\n" +
                      //"2. Abort the order");
 
@@ -323,8 +310,11 @@ public class CustomerOrders {
          System.out.println(productAmount + "x\t" + productChoice.getProd_name());
 
          List<Order_lines> order_linesList = new ArrayList<Order_lines>();
+         LocalDateTime orderDateTime = LocalDateTime.of(orderDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), current.toLocalTime());
          for (int i = 0; i < productsBought.size(); i++) { //loop for adding info to order_lines list
-            //order_linesList.add(0, new Order_lines( new Orders(customerNameChoice, new LocalDateTime(orderDate, current.getHour()), productsBought.get(i).getMfgr()), productsBought.get(i), productsQuantities.get(i), productsPrices.get(i)));
+            order_linesList.add(0, new Order_lines(
+                    new Orders(customerNameChoice, orderDateTime, productsBought.get(i).getMfgr()),
+                    productsBought.get(i), productsQuantities.get(i), productsPrices.get(i)));
          }
          customerOrders.createEntity(order_linesList);  //create order_lines objects in database
          //change product quantities
