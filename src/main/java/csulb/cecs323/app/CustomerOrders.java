@@ -124,6 +124,12 @@ public class CustomerOrders {
       customerOrders.createEntity(customers);
       Customers customerNameChoice = null;
 
+
+      int productQuantityValidation[] = new int[products.size()];//holds the quantity of products in stock
+      for (int i=0; i<products.size(); i++) {
+         productQuantityValidation[i] = products.get(i).getUnits_in_stock();
+      }
+
       System.out.print("Commencing Order Application...\n");
 
       System.out.print("Available Customer Names to Place Order:\n");
@@ -265,14 +271,15 @@ public class CustomerOrders {
                /*System.out.println("You selected " + productAmount + " of " + productChoiceName + "\nIs this correct (y/n)?");
                confirm = in.next().toUpperCase();
                if (confirm.equals("Y")){*/
-                  if (productAmount <= productChoice.getUnits_in_stock()) { // Checks if there is enough product to complete purchase
+                  if (productAmount <= productQuantityValidation[inputProduct - 1]) { // Checks if there is enough product to complete purchase
+                     productQuantityValidation[inputProduct - 1] = productQuantityValidation[inputProduct - 1] - productAmount;
                      productsBought.add(productChoice);
                      productsQuantities.add(0, productAmount);
                      productsPrices.add(0, productChoice.getUnit_list_price());
                      System.out.println(productChoiceName + " [Quantity: " + productAmount + "] has been added to your cart.");
                   } else {
                      System.out.println("Sorry! We don't have enough stock of product " + productChoiceName +
-                             "! We only have " + productChoice.getUnits_in_stock() + " left.");
+                             "! We only have " + productQuantityValidation[inputProduct - 1] + " left.");
                      //System.out.println("Would you like to:\n1. Remove " + productChoiceName + " from your order\n" +
                      //"2. Abort the order");
 
@@ -304,6 +311,11 @@ public class CustomerOrders {
       System.out.println("Would you like to:\n 1. Place your order\n 2. Abort your order");
       int finalizeOrder = getInteger(1, 2);
       if (finalizeOrder == 1) {
+
+         LOGGER.fine("Begin of Transaction");
+         EntityTransaction bx = manager.getTransaction();
+
+         bx.begin();
          //add rows in Order_Lines
          System.out.println(" == Thank you for your Purchase! == ");
          System.out.println("Quantity\tProduct");
@@ -311,19 +323,32 @@ public class CustomerOrders {
             System.out.println(productsQuantities.get(i) + "x\t" + productsBought.get(i).getProd_name());
          }
 
-         List<Order_lines> order_linesList = new ArrayList<Order_lines>();
          LocalDateTime orderDateTime = LocalDateTime.of(orderDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), current.toLocalTime());
+
+         List<Orders> orders = new ArrayList<Orders>();
+
+         for (int i = 0; i < productsBought.size(); i++) { //loop for adding info to order_lines list
+            orders.add(new Orders(customerNameChoice, orderDateTime, productsBought.get(i).getMfgr()));
+         }
+         customerOrders.createEntity(orders);
+
+         List<Order_lines> order_linesList = new ArrayList<Order_lines>();
          for (int i = 0; i < productsBought.size(); i++) { //loop for adding info to order_lines list
             order_linesList.add(0, new Order_lines(
                     new Orders(customerNameChoice, orderDateTime, productsBought.get(i).getMfgr()),
                     productsBought.get(i), productsQuantities.get(i), productsPrices.get(i)));
          }
          customerOrders.createEntity(order_linesList);  //create order_lines objects in database
+
          //change product quantities
          for (int i = 0; i < productsBought.size(); i++) {
             productsBought.get(i).setUnits_in_stock(productChoice.getUnits_in_stock() - productAmount);
          }
-         productChoice.setUnits_in_stock(productChoice.getUnits_in_stock() - productAmount); //implementation quesitonable
+         productChoice.setUnits_in_stock(productChoice.getUnits_in_stock() - productAmount); //implementation quesitonablel
+
+         bx.commit();
+         LOGGER.fine("End of Transaction");
+
       } else { //if they don't want to place order, they want to abort it
          //abort transaction
          System.out.println(" === Sorry to see you go! Thank You for shopping with us === \n\n\n");
