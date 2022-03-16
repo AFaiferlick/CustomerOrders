@@ -60,22 +60,42 @@ public class Orders {
         this.sold_by = sold_by;
     }
 
+    /**
+     * returns the customer for any function requiring it
+     * @return
+     */
     public Customers getCustomer() {
         return customer;
     }
 
+    /**
+     * grabs value customer for Orders
+     * @param customer       A customer is a person who would like to consume products from our store
+     */
     public void setCustomer(Customers customer) {
         this.customer = customer;
     }
 
+    /**
+     * grabs value customer for Orders
+     * @return
+     */
     public LocalDateTime getOrder_date() {
         return order_date;
     }
 
+    /**
+     * grabs the date ordered for Orders file
+     * @param order_date Order Date is when the Product has been ordered
+     */
     public void setOrder_date(LocalDateTime order_date) {
         this.order_date = order_date;
     }
 
+    /**
+     * 
+     * @return
+     */
     public String getSold_by() {
         return sold_by;
     }

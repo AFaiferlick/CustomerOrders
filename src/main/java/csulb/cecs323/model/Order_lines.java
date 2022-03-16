@@ -70,38 +70,75 @@ public class Order_lines {
 
     public Order_lines() {}
 
+    /**
+     * returns the Order from Orderlines
+     * @return
+     */
     public Orders getOrder() {
         return order;
     }
 
+    /**
+     * makes the current order
+     * @param order The Order is the set items and quantity desired by a customer
+     */
     public void setOrder(Orders order) {
         this.order = order;
     }
 
+    /**
+     * gets the products and returns it to any function required
+     * @return
+     */
     public Products getProduct() {
         return product;
     }
 
+    /**
+     * Sets the product for OrderLines
+     * @param product The product is an item that is being offered for sale
+     */
     public void setProduct(Products product) {
         this.product = product;
     }
 
+    /**
+     * Returns the quantity of the desired purchase
+     * @return
+     */
     public int getQuantity() {
         return quantity;
     }
 
+    /**
+     * sets the quantity for OrderLines
+     * @param quantity
+     */
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
 
+    /**
+     * Returns the individual unit price for each item
+     * @return
+     */
     public double getUnit_sale_price() {
         return unit_sale_price;
     }
 
+    /**
+     * TReturns the individual unit price for each item
+     * @param unit_sale_price This is the value of a single product
+     */
     public void setUnit_sale_price(double unit_sale_price) {
         this.unit_sale_price = unit_sale_price;
     }
 
+    /**
+     * Sums the total of the order
+     * @param
+     * @return
+     */
     public boolean equals (Object o) {
         boolean results = false;
         if (this == o) {
