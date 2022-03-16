@@ -72,7 +72,7 @@ public class Order_lines {
 
     /**
      * returns the Order from Orderlines
-     * @return
+     * @return order the implicit Order
      */
     public Orders getOrder() {
         return order;
@@ -88,7 +88,7 @@ public class Order_lines {
 
     /**
      * gets the products and returns it to any function required
-     * @return
+     * @return product the implicit Product
      */
     public Products getProduct() {
         return product;
@@ -104,7 +104,7 @@ public class Order_lines {
 
     /**
      * Returns the quantity of the desired purchase
-     * @return
+     * @return quantity the quantity of the Orderline
      */
     public int getQuantity() {
         return quantity;
@@ -112,7 +112,7 @@ public class Order_lines {
 
     /**
      * sets the quantity for OrderLines
-     * @param quantity
+     * @param quantity the quantity for a given OrderLine
      */
     public void setQuantity(int quantity) {
         this.quantity = quantity;
@@ -120,7 +120,7 @@ public class Order_lines {
 
     /**
      * Returns the individual unit price for each item
-     * @return
+     * @return unit_sale_price the listed price for an individual product
      */
     public double getUnit_sale_price() {
         return unit_sale_price;
@@ -135,9 +135,9 @@ public class Order_lines {
     }
 
     /**
-     * Sums the total of the order
-     * @param
-     * @return
+     * Determines whether two objects are equal by comparison.
+     * @param o        the explicit Object that is compared with the implicit Object.
+     * @return results determines whether two objects are equal or not.
      */
     public boolean equals (Object o) {
         boolean results = false;
