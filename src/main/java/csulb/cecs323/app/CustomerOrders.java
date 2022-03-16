@@ -400,7 +400,7 @@ public class CustomerOrders {
       }
    }// End of the getProduct method
 
-   public List<Products> getProductList () {  //for use in PART 2
+   public List<Products> getProductList () {  //fetches the products into a list
       List<Products> products = this.entityManager.createNamedQuery("ReturnProductList",
               Products.class).getResultList();
       return products;
@@ -419,7 +419,7 @@ public class CustomerOrders {
       }
    }// End of the getStyle method
 
-   public List<Customers> getCustomerNameList () //for use in PART 1
+   public List<Customers> getCustomerNameList () // Fetches a list of all the customers
    {
       List<Customers> customers = this.entityManager.createNamedQuery("ReturnCustomerNameList",
               Customers.class).getResultList();
