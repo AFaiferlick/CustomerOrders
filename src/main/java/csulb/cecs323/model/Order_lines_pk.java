@@ -37,18 +37,34 @@ public class Order_lines_pk implements Serializable {
     /** One product within this one order */
     private String product;
 
+    /**
+     * returns the order to any function needing it
+     * @return
+     */
     public Orders_pk getOrder() {
         return order;
     }
 
+    /**
+     * fetches the order for Order_lines_pk
+     * @param order
+     */
     public void setOrder(Orders_pk order) {
         this.order = order;
     }
 
+    /**
+     * returns the Product to any function needing it
+     * @return
+     */
     public String getProduct() {
         return product;
     }
 
+    /**
+     * fetches the product for Order_lines_pk
+     * @param product
+     */
     public void setProduct(String product) {
         this.product = product;
     }

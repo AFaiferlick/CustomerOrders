@@ -93,13 +93,17 @@ public class Orders {
     }
 
     /**
-     * 
+     * grabs value of who sold the time to customer and gives it to any function that requires it.
      * @return
      */
     public String getSold_by() {
         return sold_by;
     }
 
+    /**
+     * grabs the date ordered for Orders file
+     * @param sold_by       What company sold an item through our storefront
+     */
     public void setSold_by(String sold_by) {
         this.sold_by = sold_by;
     }
