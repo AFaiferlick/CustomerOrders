@@ -53,6 +53,13 @@ public class Order_lines {
      */
     private double unit_sale_price;
 
+    /**
+     *  Order Lines stores the value of what a customer would like to purchase
+     * @param order             The Order is the set items and quantity desired by a customer
+     * @param product           The product is an item that is being offered for sale
+     * @param quantity          The quantity is the amount of an item that the customer wants
+     * @param unit_sale_price   This is the value of a single product
+     */
     public Order_lines(Orders order, Products product, int quantity, double unit_sale_price)
     {
         this.setOrder(order);

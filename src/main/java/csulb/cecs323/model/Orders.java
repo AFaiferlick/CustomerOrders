@@ -25,7 +25,8 @@ within the order.
 public class Orders {
     @Id
     @ManyToOne
-    // I could easily have left the @JoinColumn annotation out
+    /* I could easily have left the @JoinColumn annotation out
+     */
     @JoinColumn(name="customer_id",
     referencedColumnName = "customer_id")
     /** The individual placing the order */
@@ -36,14 +37,22 @@ public class Orders {
     one order from another by the same customer.
      */
     private LocalDateTime order_date;
-    // make this just a string for now.  Perhaps recast Customer to "Person" and make soldby
-    // a relationship from Person instead of just a String.  Or a lookup table is fine too.
+    /** make this just a string for now.  Perhaps recast Customer to "Person" and make soldby
+    * a relationship from Person instead of just a String.  Or a lookup table is fine too.
+     */
     @Column(nullable=false, length=128)
     /** The name of the sales person who sold the goods. */
     private String sold_by;
 
     public Orders () {}
 
+    /**
+     * Orders give information on who purchased at what date from what company or reseller
+     *
+     * @param customer      A customer is a person who would like to consume products from our store
+     * @param order_date    Order Date is when the Product has been ordered
+     * @param sold_by       What company sold an item through our storefront
+     */
     public Orders (Customers customer, LocalDateTime order_date,
                    String sold_by) {
         this.customer = customer;
