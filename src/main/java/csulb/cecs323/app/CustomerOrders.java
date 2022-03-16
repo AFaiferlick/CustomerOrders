@@ -245,18 +245,16 @@ public class CustomerOrders {
       {
          System.out.println("Error.");
       }
-
-
-      System.out.print("\n +=== Available Products ===+\n");
-      for (int i=0; i<products.size(); i++) {  //print product menu
-         System.out.println(i+1 + "\t" + products.get(i).getProd_name());
-      }
-
-      System.out.println("========================================");
       int userChoice = 0;
       int moreProduct = 2;
       do {
-         do { //input validation loop
+         do { //input validation loop. this prints out the list of objects, asks for a selection and if more products
+            // are desired the list will reappear and will continually increment items at the users wish.
+            System.out.println("+========= Available Products =========+");
+            for (int i=0; i<products.size(); i++) {  //print product menu
+               System.out.println(i+1 + "\t" + products.get(i).getProd_name());
+            }
+            System.out.println("========================================");
             System.out.print("\nEnter sequence number of desired product: ");
             if (in.hasNextInt()) { //check against non-integer input
                inputProduct = in.nextInt(); //take user input in form of int
@@ -281,8 +279,8 @@ public class CustomerOrders {
                      productsPrices.add(productChoice.getUnit_list_price());
                      System.out.println(productChoiceName + " [Quantity: " + productAmount + "] has been added to your cart.");
                   } else {
-                     System.out.println("Sorry! We don't have enough stock of product " + productChoiceName +
-                             "! We only have " + productQuantityValidation[inputProduct - 1] + " left.");
+                     System.out.println(" = Sorry! We don't have enough stock of product " + productChoiceName +
+                             "! We only have " + productQuantityValidation[inputProduct - 1] + " left. = ");
                      //System.out.println("Would you like to:\n1. Remove " + productChoiceName + " from your order\n" +
                      //"2. Abort the order");
 
