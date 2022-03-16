@@ -126,15 +126,15 @@ public class CustomerOrders {
       Customers customerNameChoice = null;
 
 
-      int productQuantityValidation[] = new int[products.size()];//holds the quantity of products in stock
+      int productQuantityValidation[] = new int[products.size()];// holds the quantity of products in stock
       for (int i=0; i<products.size(); i++) {
          productQuantityValidation[i] = products.get(i).getUnits_in_stock();
       }
 
       System.out.print("Commencing Order Application...\n");
 
-      System.out.print("Available Customer Names to Place Order:\n");
-      for (int i=0; i<customers.size(); i++) {  //print product menu
+      System.out.print("Available Customer Names to Place Order:\n"); // Customer choice Prompt
+      for (int i=0; i<customers.size(); i++) {  //print customer menu
          System.out.println(i+1 + "\t" + customers.get(i).getLast_name() + " " + customers.get(i).getFirst_name());
       }
 
@@ -148,17 +148,17 @@ public class CustomerOrders {
       System.out.println();
       isValid = false;
 
-      int orderDateChoice = 0;
+      int orderDateChoice = 0; // allows you to select a date for the order
       System.out.print("Enter Order Date: \n1. Default to Current \n2. Enter Date\n");
       boolean valid = false;
       orderDateChoice = getInteger(1, 2);
 
-      if(orderDateChoice == 1)
+      if(orderDateChoice == 1) // will grab todays date
       {
          System.out.println("Order Date Set As: " + currentDate);
          orderDate = currentDate;
       }
-      else if(orderDateChoice == 2)
+      else if(orderDateChoice == 2)  // will have the user input a date
       {
          int orderYear = 0;
          System.out.println("Enter Order Date Year (2000-" + (currentDate.getYear()+1900) + "): ");
@@ -241,7 +241,7 @@ public class CustomerOrders {
          }
          orderDate = new Date(orderYear, (orderMonth - 1), orderDay);
       }
-      else
+      else // if date is invalid an error will be displayed
       {
          System.out.println("Error.");
       }
@@ -309,6 +309,7 @@ public class CustomerOrders {
       }
       System.out.println("Your order total is $" + orderTotal); //part 3di
 
+      // allows the user to continue purchase or not
       System.out.println("Would you like to:\n 1. Place your order\n 2. Abort your order");
       int finalizeOrder = getInteger(1, 2);
       if (finalizeOrder == 1) {
