@@ -44,6 +44,7 @@ public class Orders {
     /** The name of the sales person who sold the goods. */
     private String sold_by;
 
+    /** Default constructor to construct an Orders object **/
     public Orders () {}
 
     /**
@@ -62,14 +63,14 @@ public class Orders {
 
     /**
      * returns the customer for any function requiring it
-     * @return
+     * @return customer information of the customer
      */
     public Customers getCustomer() {
         return customer;
     }
 
     /**
-     * grabs value customer for Orders
+     * sets the Customer to a particular Order
      * @param customer       A customer is a person who would like to consume products from our store
      */
     public void setCustomer(Customers customer) {
@@ -78,14 +79,14 @@ public class Orders {
 
     /**
      * grabs value customer for Orders
-     * @return
+     * @return order_date the date when the order was placed
      */
     public LocalDateTime getOrder_date() {
         return order_date;
     }
 
     /**
-     * grabs the date ordered for Orders file
+     * sets the date for a particular order
      * @param order_date Order Date is when the Product has been ordered
      */
     public void setOrder_date(LocalDateTime order_date) {
@@ -93,27 +94,36 @@ public class Orders {
     }
 
     /**
-     * grabs value of who sold the time to customer and gives it to any function that requires it.
-     * @return
+     * retrieves who sold the Order to customer
+     * @return sold_by  who sold the Order to the Customer
      */
     public String getSold_by() {
         return sold_by;
     }
 
     /**
-     * grabs the date ordered for Orders file
+     * sets the company that sold an Order of Product(s)
      * @param sold_by       What company sold an item through our storefront
      */
     public void setSold_by(String sold_by) {
         this.sold_by = sold_by;
     }
 
+    /** The string representation of Orders
+     * @return string representation of orders
+     */
     @Override
     public String toString () {
         return "Order: Placed by: " + this.getCustomer() + ", On: " + this.getOrder_date() +
                 ", Sold by: " + this.getSold_by();
     }
 
+    /**
+     * Compares two objects and determines if they are equal to each other.
+     * @param o        the explicit Object that is compared with the implicit Object.
+     * @return (this.getCustomer ().equals(order.getCustomer ()) &&
+     *                 this.getOrder_date() == order.getOrder_date()) determines whether two objects are equal or not.
+     */
     @Override
     public boolean equals (Object o) {
         Orders order = (Orders) o;
