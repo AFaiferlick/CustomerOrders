@@ -46,6 +46,13 @@ public class Orders {
 
     public Orders () {}
 
+    /**
+     * Orders give information on who purchased at what date from what company or reseller
+     *
+     * @param customer      A customer is a person who would like to consume products from our store
+     * @param order_date    Order Date is when the Product has been ordered
+     * @param sold_by       What company sold an item through our storefront
+     */
     public Orders (Customers customer, LocalDateTime order_date,
                    String sold_by) {
         this.customer = customer;
