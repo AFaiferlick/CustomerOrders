@@ -425,8 +425,8 @@ public class CustomerOrders {
       return customers;
    } // End of getCustomerNameList method
 
-   /** Returns an integer between the specified minimum and maximum range (inclusive).
-    *  Validates user input
+   /** This method returns an integer between the specified minimum and maximum range (inclusive).
+    *  It validates user input and makes sure they only enter integer values.
     *  @param minRange     The minimum integer that the user can input.
     *  @param maxRange     The maximum integer that the user can input.
     *  @return An integer between the given range.
