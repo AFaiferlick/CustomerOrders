@@ -109,6 +109,7 @@ public class CustomerOrders {
       List<Products> productsBought = new ArrayList<Products>();  //for use in product column
       List<Integer> productsQuantities = new ArrayList<Integer>();  //quantity column
       List<Double> productsPrices = new ArrayList<Double>();  //unit_sale_price column
+      List<LocalDateTime> orderTimes = new ArrayList<LocalDateTime>();
       Date orderDate = null;  //order_date column
       String confirm;
       Date currentDate = new Date();
@@ -215,7 +216,7 @@ public class CustomerOrders {
                if (orderYear == (currentDate.getYear()+1900)) { //if the order year is current real-world year
                   if (orderMonth == (currentDate.getMonth() + 1)) //check if order month is current real month
                   {
-                     if(orderDay <= 14 && orderDay >= 1) //ensure it isn't in future. had to hardcode day of month because couldn't find a relevant method
+                     if(orderDay <= current.getDayOfMonth() && orderDay >= 1) //ensure it isn't in future. had to hardcode day of month because couldn't find a relevant method
                      {
                         valid = true;
                      } else if(orderDay < 1 || orderDay > 31) { //not in future but not valid range
@@ -273,9 +274,11 @@ public class CustomerOrders {
                if (confirm.equals("Y")){*/
                   if (productAmount <= productQuantityValidation[inputProduct - 1]) { // Checks if there is enough product to complete purchase
                      productQuantityValidation[inputProduct - 1] = productQuantityValidation[inputProduct - 1] - productAmount;
+                     current = LocalDateTime.now();
+                     orderTimes.add(LocalDateTime.of(orderDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), current.toLocalTime()));
                      productsBought.add(productChoice);
-                     productsQuantities.add(0, productAmount);
-                     productsPrices.add(0, productChoice.getUnit_list_price());
+                     productsQuantities.add(productAmount);
+                     productsPrices.add(productChoice.getUnit_list_price());
                      System.out.println(productChoiceName + " [Quantity: " + productAmount + "] has been added to your cart.");
                   } else {
                      System.out.println("Sorry! We don't have enough stock of product " + productChoiceName +
@@ -323,20 +326,18 @@ public class CustomerOrders {
             System.out.println(productsQuantities.get(i) + "x\t" + productsBought.get(i).getProd_name());
          }
 
-         LocalDateTime orderDateTime = LocalDateTime.of(orderDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), current.toLocalTime());
+         //LocalDateTime orderDateTime = LocalDateTime.of(orderDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), current.toLocalTime());
 
          List<Orders> orders = new ArrayList<Orders>();
 
          for (int i = 0; i < productsBought.size(); i++) { //loop for adding info to order_lines list
-            orders.add(new Orders(customerNameChoice, orderDateTime, productsBought.get(i).getMfgr()));
+            orders.add(new Orders(customerNameChoice, orderTimes.get(i), productsBought.get(i).getMfgr()));
          }
          customerOrders.createEntity(orders);
 
          List<Order_lines> order_linesList = new ArrayList<Order_lines>();
          for (int i = 0; i < productsBought.size(); i++) { //loop for adding info to order_lines list
-            order_linesList.add(0, new Order_lines(
-                    new Orders(customerNameChoice, orderDateTime, productsBought.get(i).getMfgr()),
-                    productsBought.get(i), productsQuantities.get(i), productsPrices.get(i)));
+            order_linesList.add(0, new Order_lines( orders.get(i), productsBought.get(i), productsQuantities.get(i), productsPrices.get(i)));
          }
          customerOrders.createEntity(order_linesList);  //create order_lines objects in database
 
@@ -344,7 +345,7 @@ public class CustomerOrders {
          for (int i = 0; i < productsBought.size(); i++) {
             productsBought.get(i).setUnits_in_stock(productChoice.getUnits_in_stock() - productAmount);
          }
-         productChoice.setUnits_in_stock(productChoice.getUnits_in_stock() - productAmount); //implementation quesitonablel
+         //productChoice.setUnits_in_stock(productChoice.getUnits_in_stock() - productAmount); //implementation quesitonablel
 
          bx.commit();
          LOGGER.fine("End of Transaction");
